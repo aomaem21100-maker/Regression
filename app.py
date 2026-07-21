@@ -22,17 +22,35 @@ st.set_page_config(
 # ==================== Custom CSS ====================
 st.markdown("""
 <style>
-    /* Main container */
+    /* พื้นหลังหลัก - สีอ่อน */
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #f8f9fa;
         padding: 2rem;
         border-radius: 15px;
-        color: white;
+    }
+    
+    /* ตัวอักษรทั้งหมด - สีดำ */
+    * {
+        color: #2c3e50 !important;
     }
     
     /* Header styling */
-    .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    h1, h2, h3, h4, h5, h6 {
+        color: #2c3e50 !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Slider labels */
+    .stSlider label {
+        color: #2c3e50 !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Slider values */
+    .stSlider [data-testid="stMarkdownContainer"] p {
+        color: #e74c3c !important;
+        font-weight: bold !important;
     }
     
     /* Metric cards */
@@ -49,14 +67,28 @@ st.markdown("""
         transform: translateY(-5px);
     }
     
+    .metric-card h3 {
+        color: #667eea !important;
+        margin: 0 !important;
+    }
+    
+    .metric-card p {
+        color: #2c3e50 !important;
+        margin: 0.5rem 0 !important;
+    }
+    
     /* Result card */
     .result-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 2rem;
         border-radius: 15px;
-        color: white;
+        color: white !important;
         text-align: center;
         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .result-card * {
+        color: white !important;
     }
     
     .result-value {
@@ -75,10 +107,16 @@ st.markdown("""
         color: white !important;
     }
     
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
+        color: white !important;
+    }
+    
     /* Button styling */
     .stButton > button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
         border: none;
         padding: 0.6rem 2rem;
         border-radius: 25px;
@@ -92,9 +130,15 @@ st.markdown("""
         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }
     
-    /* Slider styling */
-    .stSlider > div > div {
-        color: white !important;
+    /* Expander */
+    .streamlit-expanderHeader {
+        color: #2c3e50 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Dataframe */
+    .dataframe {
+        color: #2c3e50 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -129,7 +173,7 @@ with st.sidebar:
     """)
     
     # Feature descriptions
-    with st.expander("📖 คำอธิบาย Features"):
+    with st.expander(" คำอธิบาย Features"):
         st.markdown("""
         - **MedInc**: รายได้เฉลี่ย (×$10,000)
         - **HouseAge**: อายุบ้านเฉลี่ย
@@ -163,13 +207,13 @@ with col1:
     latitude = st.slider("🌐 Latitude", 32.0, 42.0, 35.0, 0.01)
     longitude = st.slider("🌐 Longitude", -124.0, -114.0, -119.0, 0.01)
     population = st.slider("👥 Population", 1.0, 30000.0, 1500.0, 10.0)
-    ave_occup = st.slider("👨‍👩‍👧‍👦 Avg. Occupancy", 1.0, 10.0, 3.0, 0.1)
+    ave_occup = st.slider("👨‍👩👧‍👦 Avg. Occupancy", 1.0, 10.0, 3.0, 0.1)
 
 with col2:
     st.markdown("### 🏡 House Characteristics")
     med_inc = st.slider("💰 Median Income (×$10k)", 0.5, 15.0, 5.0, 0.1)
     house_age = st.slider("🏚️ House Age (years)", 1.0, 52.0, 20.0, 1.0)
-    ave_rooms = st.slider("🚪 Avg. Rooms", 1.0, 15.0, 5.0, 0.1)
+    ave_rooms = st.slider(" Avg. Rooms", 1.0, 15.0, 5.0, 0.1)
     ave_bedrms = st.slider("🛏️ Avg. Bedrooms", 0.5, 5.0, 1.1, 0.1)
 
 # ==================== Prediction Button ====================
@@ -214,7 +258,7 @@ if predict_button:
     with col_m1:
         st.markdown(f"""
         <div class='metric-card'>
-            <h3 style='color: #667eea; margin: 0;'>💵 Predicted Price</h3>
+            <h3 style='color: #667eea; margin: 0;'> Predicted Price</h3>
             <p style='font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0;'>
                 ${prediction_usd:,.0f}
             </p>
@@ -236,7 +280,7 @@ if predict_button:
         price_per_person = prediction_usd / population if population > 0 else 0
         st.markdown(f"""
         <div class='metric-card'>
-            <h3 style='color: #f093fb; margin: 0;'>👥 Price/Person</h3>
+            <h3 style='color: #f093fb; margin: 0;'> Price/Person</h3>
             <p style='font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0;'>
                 ${price_per_person:,.0f}
             </p>
